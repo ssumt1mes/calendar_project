@@ -1,0 +1,212 @@
+/* Existing styles remain... Overwriting relevant parts or appending */
+
+.glass-form-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.glass-input-small {
+    flex: 1;
+    background: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.5);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.2s;
+}
+.glass-input-small:focus {
+    background: rgba(255,255,255,0.8);
+    border-color: var(--accent-color);
+}
+
+.daily-todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.daily-todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.25);
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.daily-todo-item.completed {
+    opacity: 0.6;
+}
+.daily-todo-item.completed span {
+    text-decoration: line-through;
+}
+
+.todo-check-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    flex: 1;
+}
+
+.todo-checkbox-mini {
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--text-secondary);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--accent-color);
+}
+
+.delete-x-btn {
+    background: transparent;
+    border: none;
+    color: #999;
+    cursor: pointer;
+}
+
+.empty-text-mini {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* Liquid Glass Add Button */
+.liquid-add-btn {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.5);
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: all 0.2s;
+}
+
+.liquid-add-btn:hover {
+    background: var(--accent-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,122,255,0.3);
+}
+
+/* Ensure these are present from previous file */
+.right-panel { padding: 24px; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+.panel-content.scrollable { overflow-y: auto; padding-bottom: 60px; scrollbar-width: thin; }
+.panel-header { display: flex; justify-content: space-between; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.2); flex-shrink: 0; }
+.panel-date { font-size: 3.5rem; font-weight: 800; margin: 0; line-height: 0.9; background: linear-gradient(180deg, var(--text-primary) 0%, #666 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.panel-weekday { font-size: 1.1rem; color: var(--text-secondary); font-weight: 500; }
+.close-panel-btn { background: rgba(255,255,255,0.2); border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; }
+.panel-section { margin-bottom: 30px; }
+.panel-section h4 { text-transform: uppercase; letter-spacing: 1.2px; font-size: 0.85rem; color: rgba(0,0,0,0.5); margin-bottom: 12px; font-weight: 700; }
+.add-btn-small { background: var(--accent-color); color: white; border: none; cursor: pointer; border-radius: 10px; font-weight: 700; padding: 0 12px; }
+.mood-display-area { display: flex; gap: 10px; min-height: 60px; align-items: center; margin-bottom: 10px; }
+.glass-card { background: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.6); box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-radius: 16px; padding: 10px 15px; font-size: 2.5rem; cursor: pointer; transition: transform 0.2s; }
+.glass-card:hover { transform: translateY(-3px); }
+.mood-picker-container { padding: 10px; border-radius: 16px; }
+.emoji-slider { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 4px; } .emoji-slider::-webkit-scrollbar { display: none; }
+.emoji-slide-item { background: rgba(255,255,255,0.4); border: none; border-radius: 12px; font-size: 1.6rem; padding: 8px 12px; cursor: pointer; flex-shrink: 0; transition: all 0.2s; } .emoji-slide-item:hover { background: rgba(255,255,255,0.8); transform: scale(1.1); }
+.event-item { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.4)); /* Increased opacity */
+    border: 1px solid rgba(255,255,255,0.6); 
+    border-radius: 16px; 
+    padding: 12px 14px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.8); 
+    /* Removed backdrop-filter to prevent black box glitch */
+    margin-bottom: 2px; 
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); 
+    transform: translateZ(0); /* Force hardware acceleration */
+}
+.event-item:hover { 
+    transform: scale(1.02) translateY(-2px) translateZ(0); 
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6)); /* Lighter on hover */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
+}
+.event-info { display: flex; align-items: center; gap: 10px; flex: 1; overflow: hidden; }
+.event-time-badge { font-size: 0.75rem; font-weight: 700; color: #fff; background: var(--accent-color); padding: 4px 8px; border-radius: 8px; white-space: nowrap; }
+.event-time-badge.all-day { background: linear-gradient(135deg, #FF9966, #FF5E62); }
+.event-title { font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; }
+.delete-event-btn { background: transparent; border: none; color: #aaa; font-size: 1.2rem; cursor: pointer; padding: 0 5px; } .delete-event-btn:hover { color: #ff3b30; }
+.glass-inset { background: rgba(0,0,0,0.03); box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; }
+.no-events { padding: 20px; text-align: center; color: var(--text-secondary); font-size: 0.9rem; }
+.event-desc-small { font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; opacity: 0.8; pointer-events: none; }
+/* Mood Picker Expanded */
+.emoji-expanded {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.picker-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.close-picker-btn {
+    background: rgba(255,255,255,0.4);
+    border: none;
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.picker-category {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.picker-category label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+}
+
+.emoji-item {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    transition: transform 0.1s;
+}
+.emoji-item:hover {
+    background: rgba(255,255,255,0.5);
+    transform: scale(1.2);
+}
+
+.more-btn {
+    background: rgba(255,255,255,0.6);
+    color: var(--accent-color);
+    font-weight: bold;
+}

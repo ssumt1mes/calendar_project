@@ -1,0 +1,23 @@
+{
+  "name": "Liquid Glass Calendar",
+  "short_name": "LiquidCal",
+  "description": "Premium 3D Glassmorphism Calendar",
+  "theme_color": "#ffffff",
+  "background_color": "#1a1a1a",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

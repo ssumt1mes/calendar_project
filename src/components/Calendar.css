@@ -1,0 +1,401 @@
+/* Main Panel floating effect */
+.glass-panel {
+  background: var(--glass-bg);
+  /* Apply noise texture overlay */
+  background-image: var(--noise-texture);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  
+  border-radius: 32px;
+  /* Complex border for thickness */
+  box-shadow: var(--glass-shadow), 
+              0 30px 60px -12px rgba(50, 50, 93, 0.25), 
+              inset 0 -2px 5px rgba(0,0,0,0.05); /* Bottom depth */
+              
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 650px;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden; /* For shine effects */
+}
+
+/* Main Calendar Panel - Premium Apple Glass */
+.glass-panel.main-calendar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: 24px;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+    padding: 0; /* Let grid fill it */
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 32px;
+    border-bottom: 1px solid rgba(0,0,0,0.03); /* Extremely subtle divider */
+}
+
+.month-display {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.title-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.title-group:active {
+    transform: scale(0.96);
+}
+
+.month-display h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+    letter-spacing: -0.5px; /* Tighter Apple tracking */
+}
+
+.year-sub {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* Navigation Buttons - iOS Style Circles */
+.nav-btn {
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 18px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+/* Grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    /* 
+       Fixed 6 rows (42 cells) to match dateUtils logic.
+       The '40px' is for the header row (Mon, Tue...)
+       '1fr' for the 6 data rows.
+    */
+    grid-template-rows: 40px repeat(6, 1fr); 
+    padding: 16px;
+    gap: 8px; /* Distinct cards */
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden; /* Prevent spill */
+}
+
+.week-header {
+    text-align: center;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    margin-bottom: 8px;
+}
+
+/* Day Cell - Refined Card */
+.day-cell {
+    position: relative;
+    background: rgba(255, 255, 255, 0.3); /* Subtle slot background */
+    border-radius: 12px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    min-height: 80px; /* Base height */
+    border: 1px solid transparent;
+}
+
+.day-cell:hover {
+    background: rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.day-cell.faded {
+    opacity: 0.4;
+    background: transparent;
+}
+
+.day-cell.selected {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 2px var(--accent-color), 0 8px 20px rgba(0, 122, 255, 0.25);
+    z-index: 2;
+    transform: scale(1.02);
+}
+
+/* Header within Cell */
+.day-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+}
+
+.day-number {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* Today Indicator - Liquid Glass Black Border */
+.day-cell.today .day-number {
+    background: rgba(255, 255, 255, 0.25); /* Transparent Glass */
+    border: 2px solid rgba(0, 0, 0, 0.7); /* Black Border */
+    color: var(--text-primary); /* Keep text dark */
+    box-shadow: 
+        inset 0 0 8px rgba(255, 255, 255, 0.8), /* Inner Shine */
+        0 4px 10px rgba(0, 0, 0, 0.15); /* Drop Shadow */
+    backdrop-filter: blur(4px);
+    transform: scale(1.1); /* Slight pulse size */
+}
+
+/* Holiday Text */
+.holiday-text {
+    color: #FF3B30; /* Apple Red */
+}
+.event-dot {
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle at 30% 30%, #4facfe, #00f2fe); /* 3D Sphere dot */
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Main Wrapper */
+.calendar-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 650px; /* Constrain width */
+}
+
+/* Year Grid - Fill Parent */
+.year-grid {
+    display: grid;
+    /* 3 cols x 4 rows = 12 months (Requested by User) */
+    grid-template-columns: repeat(3, 1fr); 
+    grid-template-rows: repeat(4, 1fr);
+    gap: 16px;
+    padding: 16px;
+    height: 100%; /* Fill the glass panel */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.month-card {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    /* Removed aspect-ratio to allow stretch */
+    height: 100%; /* Fill grid cell */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+.month-card:hover {
+    background: rgba(255,255,255,0.5);
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.month-card.current-month {
+    border: 2px solid #FF3B30; /* Red border for current month */
+    background: rgba(255,255,255,0.5);
+    color: #FF3B30;
+}
+
+.month-card:active {
+    transform: scale(0.95);
+    background: rgba(255,255,255,0.6);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Grid Tokens & Content */
+.cell-content-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 4px;
+    width: 100%;
+    align-items: flex-start;
+}
+
+/* ... (previous styles) ... */
+
+/* NEW: Date & Holiday Layout */
+.day-header-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+}
+
+.date-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.day-number {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.holiday-text {
+    color: #FF5E62; /* Red for holidays/Sunday */
+}
+
+.holiday-label {
+    font-size: 0.65rem;
+    color: #FF5E62;
+    margin-top: 2px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.todo-icon-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background: rgba(0,0,0,0.03);
+    padding: 2px 6px;
+    border-radius: 4px;
+    align-self: flex-start; /* Left align */
+    margin-bottom: 2px;
+}
+
+.todo-icon {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+}
+
+.todo-count-text {
+    font-weight: 700;
+}
+
+/* ... previous styles ... */
+
+.day-header-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2px;
+}
+
+.mood-dots-right {
+    display: flex;
+    gap: 1px;
+    justify-content: flex-end;
+}
+
+/* Todo Summary - Apple Pill Style */
+.todo-summary-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-color);
+    background: rgba(0, 122, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+    width: fit-content;
+}
+
+.event-row-compact {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+.event-time-mini {
+    color: var(--accent-color);
+    font-weight: 700;
+    white-space: nowrap;
+    font-size: 0.65rem;
+}
+
+.event-title-mini {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.plan-overflow-compact {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+    margin-top: 1px;
+}
+
+/* Ensure cell doesn't grow too much */
+.day-cell {
+    min-height: 90px;
+    max-height: 110px; /* Constraint height for at-a-glance */
+    padding: 6px 8px;
+    overflow: hidden; /* Hide scrollbar in cell */
+}
+
+/* Saturday Blue */
+.saturday-text {
+    color: #007AFF !important; 
+}

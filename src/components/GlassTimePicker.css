@@ -1,0 +1,173 @@
+.glass-time-picker {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.picker-tabs {
+    display: flex;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.picker-tab {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.picker-tab.active {
+    background: white;
+    color: var(--accent-color);
+    font-weight: 700;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Grid Mode */
+.preset-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.preset-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    padding: 12px 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.preset-btn:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px);
+}
+
+.preset-btn.selected {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.preset-btn.selected span {
+    color: white;
+}
+
+.preset-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.preset-time {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-family: monospace;
+}
+
+.custom-link {
+    background: rgba(255,255,255,0.2);
+    border-style: dashed;
+}
+
+/* Custom Mode */
+.custom-picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 160px;
+    gap: 15px;
+}
+
+.scroll-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.scroll-column label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.scroll-options {
+    width: 60px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    scroll-snap-type: y mandatory;
+}
+
+.time-option {
+    padding: 8px 0;
+    text-align: center;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    scroll-snap-align: center;
+    transition: background 0.2s;
+}
+
+.time-option:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.time-option.selected {
+    background: var(--accent-color);
+    color: white;
+    font-weight: 700;
+}
+
+.time-divider {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    padding-top: 15px; /* Adjust for label height */
+}
+
+.preview-time {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.3);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+/* Custom Scrollbar for Picker */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,0.2);
+}
