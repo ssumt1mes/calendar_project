@@ -114,6 +114,13 @@
     overflow: hidden; /* Prevent spill */
 }
 
+@media (max-width: 900px) {
+    .calendar-grid {
+        height: auto;
+        min-height: 500px; /* Ensure visibility on mobile where parent is auto height */
+    }
+}
+
 .week-header {
     text-align: center;
     color: var(--text-secondary);
