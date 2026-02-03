@@ -193,7 +193,7 @@ export const Menu: React.FC<MenuProps> = ({ currentView, onViewChange, onToday, 
 
             <GoogleConnectButton onLoginSuccess={onGoogleLogin} onLogout={onGoogleLogout} />
             <div style={{ height: '10px' }} />
-            <span className="version">v5.6 Notification</span>
+            <span className="version">v1.1.0 Mobile & Notify</span>
         </div>
     </div>
   );

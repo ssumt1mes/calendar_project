@@ -4,6 +4,28 @@
 
 Create a visually stunning "Liquid Glass" 3D web calendar with a premium Apple-like aesthetic, now fully localized for Korean users.
 
+## Version 1.1.0 - "Notification & Mobile" Update
+
+**Focus:** Mobile Experience (PWA), System Notifications, and Glass UI Polish.
+
+### 1. Notification System
+
+- **Real-time Alerts:** Integrated browser `Notification API` to alert users of upcoming events.
+- **Glass Modal:** Replaced native alerts with a beautiful custom **Glass Modal** for in-app notifications.
+- **Smart Polling:** Checks for events every minute and triggers alerts 10 minutes before and at the exact time.
+
+### 2. PWA (Mobile App)
+
+- **App-like Experience:** users can now "Add to Home Screen" on iOS/Android.
+- **Manifest:** configured `manifest.json` with icons and display settings.
+- **Icon:** Added placeholder icons for home screen.
+
+### 3. UI Polish (Glassmorphism 2.0)
+
+- **Glass Time Picker:** Replaced ugly number inputs with a custom **Glass Time Picker** (Quick Presets + Scrollable Roller).
+- **Event Modal:** Complete redesign with better spacing, liquid buttons, and animations.
+- **Test Button:** Added a visible "Test" button in the sidebar to verify permissions.
+
 ## Version 5.2 - "Robust & Refined" Update
 
 **Focus:** Stability (Navigation), UI Consistency, and Code Cleanup.
