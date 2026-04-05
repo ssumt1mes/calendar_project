@@ -1,0 +1,82 @@
+.google-connect-button {
+  width: 100%;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: var(--shadow-soft);
+}
+
+.google-connect-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(35, 115, 255, 0.18);
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.07);
+}
+
+.google-connect-button.connected {
+  justify-content: flex-start;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+  border-color: rgba(35, 115, 255, 0.14);
+}
+
+.google-connect-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  text-align: left;
+}
+
+.google-connect-copy strong {
+  font-size: 0.88rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.google-connect-copy span {
+  font-size: 0.74rem;
+  line-height: 1.35;
+  color: var(--text-secondary);
+}
+
+.google-avatar,
+.google-connect-check {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+}
+
+.google-avatar {
+  object-fit: cover;
+  box-shadow: 0 0 0 3px rgba(35, 115, 255, 0.08);
+}
+
+.google-connect-check {
+  background: rgba(26, 160, 98, 0.12);
+  color: #16935c;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.google-connect-disabled {
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.52);
+  color: var(--text-secondary);
+  font-size: 0.79rem;
+  line-height: 1.45;
+  text-align: center;
+}

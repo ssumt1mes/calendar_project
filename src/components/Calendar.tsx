@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { generateCalendarGrid, getMonthYearDetails, getZodiacAnimal, getSeasonStyle } from '../utils/dateUtils';
 import { useCalendarStorage } from '../hooks/useCalendarStorage';
 import { useHolidays } from '../hooks/useHolidays'; // Real-time holidays
@@ -56,10 +57,9 @@ export default function Calendar({
           {viewMode === 'month' ? (
               <div className="month-display">
                 <button onClick={() => onMonthNav('prev')} className="nav-btn">‹</button>
-                    <div className="title-group" onClick={() => onViewChange('year')} style={{cursor: 'pointer'}}>
+                    <div className="title-group month-title-trigger" onClick={() => onViewChange('year')}>
                         <h2>{monthTitle}</h2>
-                        {/* Detailed Zodiac for current year context */}
-                        <span className="year-sub" style={{color: '#86868b'}}>{year}년 {zodiac.korYear} • {zodiac.desc}</span>
+                        <span className="year-sub month-context">{year}년 {zodiac.korYear} • {zodiac.desc}</span>
                     </div>
                 <button onClick={() => onMonthNav('next')} className="nav-btn">›</button>
               </div>
@@ -68,7 +68,7 @@ export default function Calendar({
                   <button onClick={() => onYearNav('prev')} className="nav-btn">‹</button>
                   <div className="title-group">
                     <h2>{year}년</h2>
-                    <span className="year-sub" style={{fontSize: '14px', fontWeight:500, color: 'var(--text-primary)'}}>
+                    <span className="year-sub year-context">
                         {zodiac.korYear} ({zodiac.desc}) {zodiac.emoji}
                     </span>
                   </div>
@@ -171,40 +171,21 @@ export default function Calendar({
                 {MONTHS_SHORT.map((m, i) => {
                    const isCurrentMonth = new Date().getMonth() === i && new Date().getFullYear() === year;
                    const season = getSeasonStyle(i);
+                   const monthCardStyle = {
+                    '--month-card-gradient': season.gradient,
+                    '--month-card-border': season.border,
+                    '--month-card-text': season.text,
+                   } as CSSProperties;
                    
                    return (
                        <div 
                         key={m} 
                         className={`month-card ${isCurrentMonth ? 'current-month' : ''}`} 
                         onClick={() => onMonthSelect(i)}
-                        style={{
-                            background: season.gradient,
-                            border: `1px solid ${season.border}`,
-                            position: 'relative',
-                            borderRadius: '20px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '20px',
-                            fontWeight: '700',
-                            color: season.text,
-                            cursor: 'pointer',
-                            boxShadow: '0 4px 15px rgba(0,0,0,0.02)',
-                            transition: 'transform 0.2s',
-                            height: '100%'
-                        }}
-                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.03)'}
-                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                        style={monthCardStyle}
                        >
                            <span className="month-name">{m}</span>
-                           <span className="season-icon" style={{
-                               position: 'absolute',
-                               bottom: '12px',
-                               right: '12px',
-                               fontSize: '20px',
-                               opacity: 0.6,
-                               filter: 'grayscale(0.4)'
-                           }}>{season.icon}</span>
+                           <span className="season-icon">{season.icon}</span>
                        </div>
                    );  
                 })}

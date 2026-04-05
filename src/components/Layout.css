@@ -1,121 +1,107 @@
 .app-layout {
-  display: grid;
-  grid-template-columns: 260px 1fr 320px; /* Fixed Left, Fluid Center, Fixed Right */
-  height: 100vh;
   width: 100vw;
-  overflow: hidden;
-  gap: 16px; /* Tighter gap */
-  padding: 16px; /* Balanced padding */
-  padding-top: env(safe-area-inset-top, 16px);
-  padding-bottom: env(safe-area-inset-bottom, 16px);
-  padding-left: env(safe-area-inset-left, 16px);
-  padding-right: env(safe-area-inset-right, 16px);
+  max-width: 1480px;
+  min-height: 100dvh;
+  min-height: var(--app-height);
+  margin: 0 auto;
+  padding: max(18px, var(--safe-top)) max(18px, var(--safe-right)) max(18px, var(--safe-bottom)) max(18px, var(--safe-left));
+  display: grid;
+  grid-template-columns: 286px minmax(0, 1fr) 348px;
+  gap: 18px;
   box-sizing: border-box;
-  /* Centering Fix: Use max-width on container if screen is ultra wide */
-  justify-content: center; 
-  /* Removed align-content: center to prevent vertical collapse */
-  grid-template-rows: 1fr; /* Force row to fill height */
-  max-width: 1400px; /* Optimal reading width */
-  margin: 0 auto; /* Center the grid wrapper */
+  overflow: clip;
+}
+
+.layout-sidebar,
+.layout-main {
+  min-height: 0;
 }
 
 .layout-sidebar {
   display: flex;
   flex-direction: column;
-  height: 100%;
   overflow-y: auto;
-  border-radius: 24px;
-}
-
-.layout-sidebar.left {
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.layout-sidebar.right {
-    background: rgba(255, 255, 255, 0.5); /* Slightly more opaque for details */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: -5px 0 20px rgba(0,0,0,0.05);
+  border-radius: 32px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--panel-shadow);
 }
 
 .layout-main {
   display: flex;
   justify-content: center;
-  align-items: stretch; /* Force full height to prevent jitter */
-  overflow-y: hidden; /* Main scroll handled by inner panels if needed, but Calendar fits screen */
-  padding: 0 10px; 
-  height: 100%; /* Ensure it fills parent grid cell */
+  align-items: stretch;
+  overflow-y: auto;
+  padding: 0 4px 10px;
 }
 
-/* Mobile Responsive */
-@media (max-width: 1100px) {
-    .app-layout {
-        grid-template-columns: 80px 1fr 300px; /* Small icon nav */
-    }
+.native-ios .layout-main {
+  padding-bottom: calc(92px + var(--safe-bottom));
+}
+
+@media (max-width: 1180px) {
+  .app-layout {
+    grid-template-columns: 264px minmax(0, 1fr) 328px;
+    gap: 14px;
+  }
 }
 
 @media (max-width: 900px) {
-    .app-layout {
-        grid-template-columns: 1fr; /* Stacked */
-        padding: 10px;
-        gap: 10px;
-        height: auto;
-        min-height: 100vh;
-        overflow-y: auto;
-    }
-    
-    /* Left Sidebar: Drawer from Left */
-    .layout-sidebar.left {
-        display: flex; /* Re-enable for mobile */
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 280px;
-        z-index: 9999;
-        transform: translateX(-110%);
-        transition: transform 0.35s cubic-bezier(0.3, 0.8, 0.4, 1);
-        background: rgba(255, 255, 255, 0.9);
-        box-shadow: 10px 0 30px rgba(0,0,0,0.1);
-    }
-    .layout-sidebar.left.open {
-        transform: translateX(0);
-    }
-    
-    /* Right Sidebar: Bottom Sheet style for iPhone */
-    .layout-sidebar.right {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 20%; /* Cover 80% of screen */
-        width: 100%;
-        border-radius: 24px 24px 0 0;
-        z-index: 9999;
-        transform: translateY(110%);
-        transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-        background: rgba(255, 255, 255, 0.9);
-        box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
-        border: none;
-        padding-bottom: env(safe-area-inset-bottom);
-    }
-    
-    .layout-sidebar.right.open {
-        transform: translateY(0);
-    }
+  .app-layout {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: max(10px, var(--safe-top)) 10px max(10px, var(--safe-bottom));
+    overflow-y: auto;
+  }
 
-    /* Backdrop */
-    .mobile-backdrop {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.3);
-        backdrop-filter: blur(4px);
-        z-index: 9990;
-        animation: fadeIn 0.3s;
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .layout-main {
+    padding: 0 0 96px;
+  }
+
+  .layout-sidebar.left,
+  .layout-sidebar.right {
+    position: fixed;
+    z-index: 9999;
+    background: linear-gradient(180deg, rgba(251, 253, 255, 0.98), rgba(245, 249, 254, 0.98));
+    border-color: rgba(18, 32, 56, 0.08);
+    box-shadow: 0 28px 48px rgba(15, 23, 42, 0.14);
+  }
+
+  .layout-sidebar.left {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: min(86vw, 332px);
+    border-radius: 0 32px 32px 0;
+    transform: translateX(-110%);
+    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .layout-sidebar.left.open {
+    transform: translateX(0);
+  }
+
+  .layout-sidebar.right {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: max(88px, calc(env(safe-area-inset-top) + 16px));
+    border-radius: 32px 32px 0 0;
+    transform: translateY(110%);
+    transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  .layout-sidebar.right.open {
+    transform: translateY(0);
+  }
+
+  .mobile-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9990;
+    background: rgba(12, 23, 39, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }

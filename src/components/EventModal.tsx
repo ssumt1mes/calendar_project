@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from './Modal';
 import { useCalendarStorage } from '../hooks/useCalendarStorage';
 import { useToast } from './Toast';
@@ -6,28 +6,45 @@ import './EventModal.css';
 
 import { Portal } from './Portal';
 import { GlassTimePicker } from './GlassTimePicker';
+import { CalendarEvent } from '../types';
 
 interface EventModalProps {
   isOpen: boolean;
   onClose: () => void;
   selectedDate: string;
+  editingEvent?: CalendarEvent | null;
 }
 
-export const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, selectedDate }) => {
-  if (!isOpen) return null; // Portal Check: Don't render Portal if closed
-
-  const { addEvent } = useCalendarStorage();
+export const EventModal: React.FC<EventModalProps> = ({
+  isOpen,
+  onClose,
+  selectedDate,
+  editingEvent = null,
+}) => {
+  const { addEvent, updateEvent } = useCalendarStorage();
   const { showToast } = useToast();
 
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [isAllDay, setIsAllDay] = useState(false);
-  // ... (rest of state)
-
-  // Use refs or effect to lock body scroll if needed, but let's keep it simple first
-  
   const [hour, setHour] = useState('09');
   const [minute, setMinute] = useState('00');
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const initialTime = editingEvent?.time ?? '09:00';
+    const [initialHour, initialMinute] = initialTime.split(':');
+    setTitle(editingEvent?.title ?? '');
+    setDesc(editingEvent?.description ?? '');
+    setIsAllDay(Boolean(editingEvent?.isAllDay));
+    setHour(initialHour ?? '09');
+    setMinute(initialMinute ?? '00');
+  }, [isOpen, editingEvent]);
+
+  if (!isOpen) return null;
 
   const handleTimeChange = (h: string, m: string) => {
       setHour(h);
@@ -39,15 +56,24 @@ export const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, selecte
 
     const timeString = isAllDay ? undefined : `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
 
-    addEvent(selectedDate, {
-      title,
-      description: desc,
-      time: timeString,
-      isAllDay
-    });
+    if (editingEvent?.id) {
+      updateEvent(selectedDate, editingEvent.id, {
+        title,
+        description: desc,
+        time: timeString,
+        isAllDay,
+      });
+      showToast('일정이 수정되었습니다.', 'success');
+    } else {
+      addEvent(selectedDate, {
+        title,
+        description: desc,
+        time: timeString,
+        isAllDay,
+      });
+      showToast('일정이 성공적으로 추가되었습니다!', 'success');
+    }
 
-    showToast('일정이 성공적으로 추가되었습니다!', 'success');
-    
     // Reset & Close
     setTitle('');
     setDesc('');
@@ -59,13 +85,14 @@ export const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, selecte
 
   return (
     <Portal>
-        <Modal isOpen={isOpen} onClose={onClose} title="새로운 일정 추가">
+        <Modal isOpen={isOpen} onClose={onClose} title={editingEvent ? '일정 수정' : '새로운 일정 추가'}>
         <div className="event-form-container">
             
             {/* Title */}
             <div className="form-group">
-            <label>제목</label>
+            <label htmlFor="event-title-input">제목</label>
             <input 
+                id="event-title-input"
                 type="text" 
                 className="glass-input big-input"
                 placeholder="일정 제목을 입력하세요"
@@ -101,8 +128,9 @@ export const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, selecte
 
             {/* Description */}
             <div className="form-group">
-            <label>세부 내용</label>
+            <label htmlFor="event-description-input">세부 내용</label>
             <textarea 
+                id="event-description-input"
                 className="glass-input area-input"
                 placeholder="메모나 세부 사항을 적어주세요..."
                 value={desc}
@@ -113,10 +141,10 @@ export const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, selecte
 
             {/* Action Buttons */}
             <div className="modal-actions">
-            <button className="cancel-btn" onClick={onClose}>취소</button>
-            <button className="submit-btn" onClick={handleSubmit} disabled={!title}>
-                일정 등록하기
-            </button>
+             <button className="cancel-btn" onClick={onClose}>취소</button>
+             <button className="submit-btn" onClick={handleSubmit} disabled={!title}>
+                {editingEvent ? '수정 저장' : '일정 등록하기'}
+             </button>
             </div>
         </div>
         </Modal>

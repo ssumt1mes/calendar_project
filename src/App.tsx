@@ -6,19 +6,30 @@ import { RightPanel } from './components/RightPanel';
 import Calendar from './components/Calendar';
 import { useNotifications } from './hooks/useNotifications';
 import { NotificationModal } from './components/NotificationModal';
+import { useAuth } from './hooks/useAuth';
+import { AuthScreen } from './components/AuthScreen';
+import type { CalendarEvent } from './types';
+
+const toDateString = (value: Date): string => {
+  const year = value.getFullYear();
+  const month = String(value.getMonth() + 1).padStart(2, '0');
+  const day = String(value.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 function App() {
+  const todayString = toDateString(new Date());
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'month' | 'year'>('month');
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(todayString);
+  const { user, login, register, logout } = useAuth();
   
   // Notification Service
   const { permission, requestPermission, sendNotification, activeNotification, closeNotification } = useNotifications();
   
   // Google Calendar State
   const [googleAccessToken, setGoogleAccessToken] = useState<string | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [googleEvents, setGoogleEvents] = useState<any[]>([]);
+  const [googleEvents, setGoogleEvents] = useState<CalendarEvent[]>([]);
 
   // Fetch Google Events when token or month changes
   useEffect(() => {
@@ -75,22 +86,30 @@ function App() {
     const today = new Date();
     setCurrentDate(today);
     setViewMode('month');
-    // Also select today in the panel
-    const y = today.getFullYear();
-    const m = String(today.getMonth() + 1).padStart(2, '0');
-    const d = String(today.getDate()).padStart(2, '0');
-    setSelectedDate(`${y}-${m}-${d}`);
+    setSelectedDate(toDateString(today));
   };
+
+  if (!user) {
+    return (
+      <ToastProvider>
+        <AuthScreen onLogin={login} onRegister={register} />
+      </ToastProvider>
+    );
+  }
 
   return (
     <ToastProvider>
       <Layout
+        onToday={goToToday}
         leftSidebar={
             <Menu 
                 currentView={viewMode}
                 onViewChange={setViewMode}
                 onToday={goToToday}
-                selectedDate={selectedDate || new Date().toISOString().split('T')[0]} // Default to today if null
+                selectedDate={selectedDate || todayString}
+                userName={user.name}
+                userEmail={user.email}
+                onLogout={logout}
                 onGoogleLogin={handleGoogleLogin}
                 onGoogleLogout={handleGoogleLogout}
                 notificationPermission={permission}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Layout.css';
 import { MobileDock } from './MobileDock';
 
@@ -6,11 +6,20 @@ interface LayoutProps {
   leftSidebar: React.ReactNode;
   children: React.ReactNode; // Center content
   rightSidebar: React.ReactNode;
+  onToday: () => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ leftSidebar, children, rightSidebar }) => {
+export const Layout: React.FC<LayoutProps> = ({ leftSidebar, children, rightSidebar, onToday }) => {
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
+
+  useEffect(() => {
+    const isAnyDrawerOpen = showLeft || showRight;
+    document.body.style.overflow = isAnyDrawerOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showLeft, showRight]);
 
   // Close drawers when clicking outside (backdrop)
   const closeDrawers = () => {
@@ -35,9 +44,18 @@ export const Layout: React.FC<LayoutProps> = ({ leftSidebar, children, rightSide
       </aside>
 
       <MobileDock 
-        onToggleLeft={() => setShowLeft(!showLeft)}
-        onToggleRight={() => setShowRight(!showRight)}
-        onGoHome={() => window.location.reload()} // Simple reload to "reset" to today or just close drawers
+        onToggleLeft={() => {
+          setShowRight(false);
+          setShowLeft(!showLeft);
+        }}
+        onToggleRight={() => {
+          setShowLeft(false);
+          setShowRight(!showRight);
+        }}
+        onGoHome={() => {
+          onToday();
+          closeDrawers();
+        }}
       />
     </div>
   );
